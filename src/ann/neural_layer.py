@@ -8,12 +8,6 @@ class Dense:
     """
 
     def __init__(self, input_dim, output_dim, weight_init="random", weight_decay=0.0):
-        """
-        input_dim   : number of input features
-        output_dim  : number of neurons in this layer
-        weight_init : 'random' | 'xavier' | 'zeros'
-        weight_decay: L2 regularisation coefficient
-        """
 
         self.input_dim   = input_dim
         self.output_dim  = output_dim
@@ -24,7 +18,7 @@ class Dense:
             self.W = np.random.randn(input_dim, output_dim) * 0.01
 
         elif weight_init == "xavier":
-            # ✅ FIX: Glorot uniform (correct formula)
+            
             limit = np.sqrt(6.0 / (input_dim + output_dim))
             self.W = np.random.uniform(-limit, limit, (input_dim, output_dim))
 
@@ -58,13 +52,12 @@ class Dense:
         """
         batch_size = self.X.shape[0]
 
-        # ✅ FIX: divide by batch_size for correct gradient scale
         self.grad_W = np.dot(self.X.T, dZ) / batch_size
 
-        # ✅ FIX: use mean instead of sum
+
         self.grad_b = np.mean(dZ, axis=0, keepdims=True)
 
-        # ✅ FIX: add L2 regularisation term inside backward
+
         if self.weight_decay > 0.0:
             self.grad_W += self.weight_decay * self.W
 

@@ -35,7 +35,6 @@ def build_model(input_dim, hidden_sizes, activation_name, weight_init):
         model.add(activation())
         prev_dim = size
 
-    # ✅ FIX: no Softmax at end — softmax is applied inside objective_functions
     model.add(Dense(prev_dim, 10, weight_init))
 
     return model
@@ -62,7 +61,6 @@ def find_config(model_path, config_path=None):
     if config_path and os.path.exists(config_path):
         return config_path
 
-    # ✅ FIX: search multiple possible paths instead of hardcoding
     candidates = [
         os.path.join(os.path.dirname(os.path.abspath(model_path)), "best_config.json"),
         "models/best_config.json",
@@ -90,7 +88,6 @@ def run_inference(args):
     with open(config_path, "r") as f:
         config = json.load(f)
 
-    # ✅ FIX: use new 3-tuple return format from load_data
     _, _, (X_test, y_test) = load_data(args.dataset)
 
     # Rebuild model from saved config
@@ -111,7 +108,7 @@ def run_inference(args):
     # Forward pass — outputs raw logits
     logits = model.forward(X_test)
 
-    # ✅ FIX: apply softmax manually here for inference (not via loss fn)
+
     logits_shifted = logits - np.max(logits, axis=1, keepdims=True)
     exp_logits     = np.exp(logits_shifted)
     probs          = exp_logits / np.sum(exp_logits, axis=1, keepdims=True)

@@ -37,13 +37,13 @@ class MeanSquaredError:
         y_pred : raw logits  (batch_size, num_classes)
         y_true : int labels  (batch_size,) OR one-hot (batch_size, num_classes)
         """
-        probs = _softmax(y_pred)                       # ✅ apply softmax to logits
-        y_oh  = _to_one_hot(y_true, y_pred.shape[1])  # ✅ handle int labels
+        probs = _softmax(y_pred)                       
+        y_oh  = _to_one_hot(y_true, y_pred.shape[1])  
 
         loss = np.mean(np.sum((probs - y_oh) ** 2, axis=1))
         return float(loss)
 
-    def backward(self, y_pred, y_true):                # ✅ accepts arguments
+    def backward(self, y_pred, y_true):               
         """
         Proper gradient of MSE loss through softmax w.r.t logits
         """
@@ -53,7 +53,7 @@ class MeanSquaredError:
 
         dl_dp = 2.0 * (probs - y_oh)
         dot   = np.sum(dl_dp * probs, axis=1, keepdims=True)
-        grad  = probs * (dl_dp - dot) / batch_size    # ✅ gradient through softmax
+        grad  = probs * (dl_dp - dot) / batch_size    
         return grad
 
 
@@ -71,14 +71,14 @@ class CrossEntropy:
         y_pred : raw logits  (batch_size, num_classes)
         y_true : int labels  (batch_size,) OR one-hot (batch_size, num_classes)
         """
-        probs = _softmax(y_pred)                       # ✅ apply softmax to logits
-        y_oh  = _to_one_hot(y_true, y_pred.shape[1])  # ✅ handle int labels
+        probs = _softmax(y_pred)                       
+        y_oh  = _to_one_hot(y_true, y_pred.shape[1])  
 
         probs_clipped = np.clip(probs, 1e-12, 1.0)
         loss = -np.sum(y_oh * np.log(probs_clipped)) / y_pred.shape[0]
         return float(loss)
 
-    def backward(self, y_pred, y_true):                # ✅ accepts arguments
+    def backward(self, y_pred, y_true):              
         """
         Combined gradient of CrossEntropy + Softmax w.r.t logits.
         Simplifies cleanly to: (probs - y_true) / batch_size
@@ -87,5 +87,5 @@ class CrossEntropy:
         y_oh       = _to_one_hot(y_true, y_pred.shape[1])
         batch_size = y_pred.shape[0]
 
-        grad = (probs - y_oh) / batch_size             # ✅ correct combined gradient
+        grad = (probs - y_oh) / batch_size             
         return grad

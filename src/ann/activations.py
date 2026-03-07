@@ -10,7 +10,7 @@ class Sigmoid:
         self.output = None
 
     def forward(self, X):
-        # ✅ FIX: numerically stable sigmoid
+        
         # avoids overflow for large negative values
         pos_mask = X >= 0
         result = np.empty_like(X, dtype=float)
@@ -55,13 +55,11 @@ class ReLU:
         return np.maximum(0.0, X)
 
     def backward(self, dA):
-        # ✅ FIX: cleaner derivative using boolean mask
         return dA * (self.input > 0).astype(float)
 
 
 # --------------------------------------------------
-# Softmax Activation (used only for inference/output, not in backprop)
-# Softmax + loss gradient is handled inside objective_functions.py
+# Softmax Activation 
 # --------------------------------------------------
 
 class Softmax:
@@ -75,5 +73,4 @@ class Softmax:
         return self.output
 
     def backward(self, dA):
-        # gradient is handled inside objective_functions.py (combined with loss)
         return dA

@@ -76,7 +76,7 @@ class NeuralNetwork:
 
     def backward(self, y_true, y_pred):
 
-        # use loss function gradient instead of hardcoded subtraction
+
         if self.loss_fn is not None:
             gradient = self.loss_fn.backward(y_pred, y_true)
         else:
@@ -86,7 +86,6 @@ class NeuralNetwork:
             gradient = layer.backward(gradient)
 
         # collect gradients from trainable layers
-        # index 0 = last (output) layer, matching autograder expectation
         grad_W_list = []
         grad_b_list = []
 
@@ -102,7 +101,7 @@ class NeuralNetwork:
             grad_W[i] = gw
             grad_b[i] = gb
 
-        return grad_W, grad_b   # ✅ returns two values as autograder expects
+        return grad_W, grad_b   
 
     # --------------------------------------------------
     # Get Trainable Layers

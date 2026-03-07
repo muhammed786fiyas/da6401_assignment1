@@ -55,7 +55,6 @@ def load_data(dataset="mnist"):
     y arrays : shape (N,),     int32  — raw integer labels
     """
 
-    # ✅ normalise dataset name — accept both 'fashion' and 'fashion_mnist'
     dataset = dataset.lower()
     if dataset == "fashion_mnist":
         dataset = "fashion"
@@ -71,7 +70,7 @@ def load_data(dataset="mnist"):
     y_train_full = y_train_full.astype(np.int32)
     y_test       = y_test.astype(np.int32)
 
-    # ✅ split last 10% of training data as validation set
+    # split last 10% of training data as validation set
     val_size = int(0.1 * len(X_train_full))
     X_val    = X_train_full[-val_size:]
     y_val    = y_train_full[-val_size:]

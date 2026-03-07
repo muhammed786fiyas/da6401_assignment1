@@ -69,7 +69,6 @@ def train(args):
 
     np.random.seed(42)
 
-    # ✅ FIX: wandb is optional — only init if available
     wandb_run = None
     if getattr(args, "use_wandb", False):
         try:
@@ -82,7 +81,6 @@ def train(args):
         except ImportError:
             print("[WARNING] wandb not installed — skipping W&B logging.")
 
-    # ✅ FIX: load_data returns (train), (val), (test) tuples
     (X_train, y_train), (X_val, y_val), (X_test, y_test) = load_data(args.dataset)
 
     # Build model
@@ -93,13 +91,12 @@ def train(args):
         weight_init=args.weight_init
     )
 
-    # ✅ FIX: create loss_fn and link it to the model via set_loss()
     if args.loss == "cross_entropy":
         loss_fn = CrossEntropy()
     else:
         loss_fn = MeanSquaredError()
 
-    model.set_loss(loss_fn)  # ✅ critical — connects loss to backward pass
+    model.set_loss(loss_fn)  
 
     optimizer = get_optimizer(args.optimizer, args.learning_rate)
 
@@ -128,8 +125,6 @@ def train(args):
             epoch_loss  += loss
             num_batches += 1
 
-            # Backward pass — loss_fn gradient used internally via set_loss()
-            # weight_decay is now handled inside Dense.backward()
             model.backward(y_batch, y_pred)
 
             # Update parameters
@@ -157,7 +152,6 @@ def train(args):
         if val_acc > best_accuracy:
             best_accuracy = val_acc
 
-            # ✅ absolute paths — works from any directory
             src_dir    = os.path.dirname(os.path.abspath(__file__))
             models_dir = os.path.join(src_dir, '..', 'models')
             os.makedirs(models_dir, exist_ok=True)

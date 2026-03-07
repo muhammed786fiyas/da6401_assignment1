@@ -39,7 +39,7 @@ class Momentum:
             self._init_state(layers)
 
         for i, layer in enumerate(layers):
-            # ✅ FIX: include lr in velocity accumulation (correct formula)
+
             self._vW[i] = self.beta * self._vW[i] + self.lr * layer.grad_W
             self._vb[i] = self.beta * self._vb[i] + self.lr * layer.grad_b
             layer.W -= self._vW[i]
@@ -68,7 +68,7 @@ class NAG:
             self._init_state(layers)
 
         for i, layer in enumerate(layers):
-            # ✅ FIX: correct Nesterov update using previous velocity
+
             vW_prev = self._vW[i].copy()
             vb_prev = self._vb[i].copy()
 
@@ -139,7 +139,7 @@ class Adam:
 
         self._t += 1
 
-        # ✅ FIX: compute bias-corrected lr once upfront (cleaner + correct)
+
         lr_t = self.lr * (np.sqrt(1 - self.beta2 ** self._t) / (1 - self.beta1 ** self._t))
 
         for i, layer in enumerate(layers):
@@ -196,7 +196,7 @@ class Nadam:
             mb_hat = self._mb[i] / (1 - self.beta1 ** self._t)
             vW_hat = self._vW[i] / (1 - self.beta2 ** self._t)
             vb_hat = self._vb[i] / (1 - self.beta2 ** self._t)
-            # ✅ Nesterov look-ahead: blend next step momentum
+            # Nesterov look-ahead: blend next step momentum
             mW_nesterov = self.beta1 * mW_hat + (1 - self.beta1) * layer.grad_W / (1 - self.beta1 ** self._t)
             mb_nesterov = self.beta1 * mb_hat + (1 - self.beta1) * layer.grad_b / (1 - self.beta1 ** self._t)
             layer.W -= self.lr * mW_nesterov / (np.sqrt(vW_hat) + self.epsilon)
