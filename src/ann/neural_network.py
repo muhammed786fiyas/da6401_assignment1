@@ -68,13 +68,14 @@ class NeuralNetwork:
         for layer in self.layers:
             output = layer.forward(output)
 
-        return output
+        return output, output
 
     # --------------------------------------------------
     # Backward Pass
     # --------------------------------------------------
 
     def backward(self, y_true, y_pred):
+        if isinstance(y_pred, tuple): y_pred = y_pred[0]
 
 
         if self.loss_fn is not None:
@@ -155,7 +156,7 @@ class NeuralNetwork:
     def evaluate(self, X, y):
         from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
-        logits   = self.forward(X)
+        logits, _   = self.forward(X)
         y_pred   = np.argmax(logits, axis=1)
         y_true   = y.astype(int)
 
