@@ -68,7 +68,7 @@ class NeuralNetwork:
         for layer in self.layers:
             output = layer.forward(output)
 
-        return output, output
+        return output
 
     # --------------------------------------------------
     # Backward Pass
@@ -155,7 +155,7 @@ class NeuralNetwork:
     def evaluate(self, X, y):
         from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
-        logits, _   = self.forward(X)
+        logits   = self.forward(X)
         y_pred   = np.argmax(logits, axis=1)
         y_true   = y.astype(int)
 

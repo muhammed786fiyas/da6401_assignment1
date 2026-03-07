@@ -118,7 +118,7 @@ def train(args):
             y_batch = y_shuffled[i:i + args.batch_size]
 
             # Forward pass
-            y_pred, _ = model.forward(X_batch)
+            y_pred = model.forward(X_batch)
 
             # Compute loss
             loss = loss_fn.forward(y_pred, y_batch)
@@ -133,7 +133,7 @@ def train(args):
         epoch_loss /= num_batches
 
         # Evaluate on validation set
-        val_pred, _    = model.forward(X_val)
+        val_pred    = model.forward(X_val)
         val_labels  = np.argmax(val_pred, axis=1)
         val_acc     = accuracy_score(y_val, val_labels)
         val_f1      = f1_score(y_val, val_labels, average="macro", zero_division=0)
@@ -169,7 +169,7 @@ def train(args):
         #     print(f"  → Best model saved (val_acc={val_acc:.4f})")
 
     # Final test evaluation
-    test_pred, _   = model.forward(X_test)
+    test_pred   = model.forward(X_test)
     test_labels = np.argmax(test_pred, axis=1)
     test_acc    = accuracy_score(y_test, test_labels)
     test_f1     = f1_score(y_test, test_labels, average="macro", zero_division=0)
