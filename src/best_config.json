@@ -1,0 +1,17 @@
+{
+  "dataset": "mnist",
+  "epochs": 5,
+  "batch_size": 32,
+  "loss": "cross_entropy",
+  "optimizer": "nag",
+  "learning_rate": 0.01,
+  "weight_decay": 0.0,
+  "num_layers": 3,
+  "hidden_size": [
+    64
+  ],
+  "activation": "sigmoid",
+  "weight_init": "xavier",
+  "use_wandb": false,
+  "wandb_project": "da6401-assignment-1"
+}
