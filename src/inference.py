@@ -143,7 +143,7 @@ def parse_arguments():
 
     parser.add_argument("-d",  "--dataset",     default="mnist",
                         choices=["mnist", "fashion_mnist", "fashion"])
-    parser.add_argument("--model_path",         default="models/best_model.npy")
+    parser.add_argument("--model_path",         default="best_model.npy")
     parser.add_argument("--config_path",        default=None)
     parser.add_argument("--use_wandb",          action="store_true")
     parser.add_argument("--wandb_project",      default="da6401-assignment-1")

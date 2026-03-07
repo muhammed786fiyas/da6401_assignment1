@@ -148,25 +148,25 @@ def train(args):
                 "val_f1":   val_f1,
             })
 
-        # Save best model by accuracy
-        if val_acc > best_accuracy:
-            best_accuracy = val_acc
+        # # Save best model by accuracy
+        # if val_acc > best_accuracy:
+        #     best_accuracy = val_acc
 
-            src_dir    = os.path.dirname(os.path.abspath(__file__))
-            models_dir = os.path.join(src_dir, '..', 'models')
-            os.makedirs(models_dir, exist_ok=True)
+        #     src_dir    = os.path.dirname(os.path.abspath(__file__))
+        #     models_dir = os.path.join(src_dir, '..', 'models')
+        #     os.makedirs(models_dir, exist_ok=True)
 
-            weights = model.get_weights()
+        #     weights = model.get_weights()
 
-            np.save(os.path.join(src_dir, 'best_model.npy'), weights)
-            np.save(os.path.join(models_dir, 'best_model.npy'), weights)
+        #     np.save(os.path.join(src_dir, 'best_model.npy'), weights)
+        #     np.save(os.path.join(models_dir, 'best_model.npy'), weights)
 
-            with open(os.path.join(src_dir, 'best_config.json'), 'w') as f:
-                json.dump(vars(args), f, indent=2)
-            with open(os.path.join(models_dir, 'best_config.json'), 'w') as f:
-                json.dump(vars(args), f, indent=2)
+        #     with open(os.path.join(src_dir, 'best_config.json'), 'w') as f:
+        #         json.dump(vars(args), f, indent=2)
+        #     with open(os.path.join(models_dir, 'best_config.json'), 'w') as f:
+        #         json.dump(vars(args), f, indent=2)
 
-            print(f"  → Best model saved (val_acc={val_acc:.4f})")
+        #     print(f"  → Best model saved (val_acc={val_acc:.4f})")
 
     # Final test evaluation
     test_pred   = model.forward(X_test)
