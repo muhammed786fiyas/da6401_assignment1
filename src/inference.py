@@ -106,7 +106,7 @@ def run_inference(args):
     load_weights(model, args.model_path)
 
     # Forward pass — outputs raw logits
-    logits = model.forward(X_test)
+    logits, _ = model.forward(X_test)
 
 
     logits_shifted = logits - np.max(logits, axis=1, keepdims=True)
