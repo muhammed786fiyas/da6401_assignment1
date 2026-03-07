@@ -1,0 +1,25 @@
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# W&B logs
+src/wandb/
+
+# Logs and temp files
+src/run_log.txt
+src/run_all.sh
+src/sweep.yaml
+
+# Notebooks checkpoints
+notebooks/.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+EOF
