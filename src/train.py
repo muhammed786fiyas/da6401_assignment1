@@ -191,8 +191,8 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-d",   "--dataset",       choices=["mnist", "fashion_mnist"], default="fashion_mnist")
-    parser.add_argument("-e",   "--epochs",         type=int,   default=10)
+    parser.add_argument("-d",   "--dataset",       choices=["mnist", "fashion_mnist"], default="mnist")
+    parser.add_argument("-e",   "--epochs",         type=int,   default=15)
     parser.add_argument("-b",   "--batch_size",     type=int,   default=32)
     parser.add_argument("-l",   "--loss",           choices=["mean_squared_error", "cross_entropy"], default="cross_entropy")
     parser.add_argument("-o",   "--optimizer",      choices=["sgd", "momentum", "nag", "rmsprop", "adam", "nadam"], default="adam")

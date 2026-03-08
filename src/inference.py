@@ -83,23 +83,13 @@ def find_config(model_path, config_path=None):
 
 def run_inference(args):
 
-    # Load config
-    config_path = find_config(args.model_path, getattr(args, "config_path", None))
-    with open(config_path, "r") as f:
-        config = json.load(f)
-
     _, _, (X_test, y_test) = load_data(args.dataset)
-
-    # Rebuild model from saved config
-    hidden_sizes = config["hidden_size"]
-    if isinstance(hidden_sizes, int):
-        hidden_sizes = [hidden_sizes] * config.get("num_layers", 3)
 
     model = build_model(
         input_dim=784,
-        hidden_sizes=hidden_sizes,
-        activation_name=config["activation"],
-        weight_init=config["weight_init"]
+        hidden_sizes=args.hidden_size,
+        activation_name=args.activation,
+        weight_init=args.weight_init
     )
 
     # Load weights
@@ -141,12 +131,21 @@ def parse_arguments():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-d",  "--dataset",     default="mnist",
-                        choices=["mnist", "fashion_mnist", "fashion"])
-    parser.add_argument("--model_path",         default="best_model.npy")
-    parser.add_argument("--config_path",        default=None)
-    parser.add_argument("--use_wandb",          action="store_true")
-    parser.add_argument("--wandb_project",      default="da6401-assignment-1")
+    parser.add_argument("-d",   "--dataset",       choices=["mnist", "fashion_mnist"], default="mnist")
+    parser.add_argument("-e",   "--epochs",         type=int,   default=15)
+    parser.add_argument("-b",   "--batch_size",     type=int,   default=32)
+    parser.add_argument("-l",   "--loss",           choices=["mean_squared_error", "cross_entropy"], default="cross_entropy")
+    parser.add_argument("-o",   "--optimizer",      choices=["sgd", "momentum", "nag", "rmsprop", "adam", "nadam"], default="adam")
+    parser.add_argument("-lr",  "--learning_rate",  type=float, default=0.001)
+    parser.add_argument("-wd",  "--weight_decay",   type=float, default=0.0)
+    parser.add_argument("-nhl", "--num_layers",     type=int,   default=3)
+    parser.add_argument("-sz",  "--hidden_size",    type=int, nargs="+", default=[128, 128, 128])
+    parser.add_argument("-a",   "--activation",     choices=["relu", "sigmoid", "tanh"], default="relu")
+    parser.add_argument("-wi",  "--weight_init",    choices=["random", "xavier", "zeros"], default="xavier")
+    parser.add_argument("--model_path",             default="best_model.npy")
+    parser.add_argument("--config_path",            default=None)
+    parser.add_argument("--use_wandb",              action="store_true")
+    parser.add_argument("--wandb_project",          default="da6401-assignment-1")
 
     return parser.parse_args()
 
